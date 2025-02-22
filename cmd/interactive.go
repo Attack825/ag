@@ -82,7 +82,7 @@ func initProvider() {
 
 func startREPL() {
 	scanner := bufio.NewScanner(os.Stdin)
-	fmt.Printf("🤖 [%s](%s) exit 退出:\n", model, currentProvider.Name())
+	fmt.Printf("🤖 [%s](%s)\n", model, currentProvider.Name())
 
 	for {
 		fmt.Print(">>> ")
