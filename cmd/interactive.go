@@ -88,7 +88,7 @@ func startREPL() {
 
 func handleInput(prompt string) {
 	stream, _ := currentProvider.CreateChatCompletion(prompt, true)
-	fmt.Printf("\n[%s] 回答:\n", currentProvider.Name())
+	fmt.Printf("\n🤖 [%s] 回答:\n", currentProvider.Name())
 	for chunk := range stream {
 		fmt.Print(chunk)
 	}

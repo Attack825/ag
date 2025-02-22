@@ -51,8 +51,8 @@ func handleChat(question string) {
     }
 
     // 调用API
-    fmt.Printf("用户: %s\n", question)
-    fmt.Printf("%s回答: \n", provider.Name())
+    fmt.Printf("👤 用户: %s\n", question)
+    fmt.Printf("🤖 %s 回答: \n", provider.Name())
     
     // 使用流式响应
     stream, err := provider.CreateChatCompletion(question, true)
