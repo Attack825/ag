@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/irorange27/ag/cmd"
+	"ag/cmd"
 )
 
 func main() {
