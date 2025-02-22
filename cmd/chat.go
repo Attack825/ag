@@ -34,6 +34,9 @@ func init() {
 
 func handleChat(question string) {
     // 获取默认提供商
+	if provider == "" {
+		provider = config.GetDefaultProvider()
+	}
     cfg := config.GetProviderConfig(provider)
     if cfg == nil {
         fmt.Printf("找不到提供商配置: %s\n", provider)
