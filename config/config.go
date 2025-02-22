@@ -6,6 +6,7 @@ import (
 	"os"
 	"gopkg.in/yaml.v2"
 	"strings"
+	"path/filepath"
 )
 
 type Config struct {
@@ -22,14 +23,28 @@ type ProviderConfig struct {
 
 var config *Config
 
-func Load() error {
-	// 尝试多个可能的配置文件路径
-    configPaths := []string{
-        "config.yaml",               // 当前目录
+func getConfigPaths() []string {
+    // 获取用户主目录
+    home, err := os.UserHomeDir()
+    if err != nil {
+        return []string{}
+    }
+
+    // 按照优先级返回配置路径
+    return []string{
+        filepath.Join(home, ".local", "bin", "ag", "config.yaml"),  // 主配置路径
+        filepath.Join(home, ".config", "ag", "config.yaml"),        // XDG 配置路径
+        "/etc/ag/config.yaml",                                      // 系统级配置
+		"config.yaml",               // 当前目录
         "./config/config.yaml",       // config 子目录
         "../config.yaml",             // 上一级目录
         "../config/config.yaml",      // 上一级目录的 config 子目录
-    }
+	}
+}
+
+func Load() error {
+	// 尝试多个可能的配置文件路径
+    configPaths := getConfigPaths()
 
     var data []byte
     var err error
@@ -37,7 +52,6 @@ func Load() error {
     // 尝试读取配置文件
     for _, path := range configPaths {
         data, err = os.ReadFile(path)
-
         if err == nil {
             break
         }
@@ -75,7 +89,7 @@ func GetDefaultProvider() string {
 		return ""
 	}
 
-	
+
 	return config.DefaultProvider
 }
 
