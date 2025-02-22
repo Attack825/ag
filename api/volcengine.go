@@ -9,18 +9,18 @@ import (
 	"time"
 )
 
-type OpenAIClient struct {
+type VolcEngineClient struct {
 	HTTPClient *http.Client
 	APIKey     string
 	BaseURL    string
 }
 
-func (c *OpenAIClient) Name() string {
-    return "openai"
+func (c *VolcEngineClient) Name() string {
+    return "volcengine"
 }
 
-func NewOpenAIClient(apiKey string) *OpenAIClient {
-	return &OpenAIClient{
+func NewVolcEngineClient(apiKey string) *VolcEngineClient {
+	return &VolcEngineClient{
 		HTTPClient: &http.Client{
 			Timeout: 30 * time.Second,
 			Transport: &http.Transport{
@@ -30,14 +30,14 @@ func NewOpenAIClient(apiKey string) *OpenAIClient {
 			},
 		},
 		APIKey:  apiKey,
-		BaseURL: "https://api.openai.com/v1",
+		BaseURL: "https://ark.cn-beijing.volces.com/api/v3",
 	}
 }
 
-func (c *OpenAIClient) CreateChatCompletion(prompt string, stream bool) (chan string, error) {
+func (c *VolcEngineClient) CreateChatCompletion(prompt string, stream bool) (chan string, error) {
     reqBody := map[string]interface{}{
-        "model": "gpt-3.5-turbo",
-        "messages": []map[string]interface{}{
+        "model": "deepseek-v3-241226",
+        "messages": []map[string]string{
             {"role": "user", "content": prompt},
         },
         "stream": stream,
