@@ -2,7 +2,7 @@ package api
 
 type Provider interface {
     Name() string
-    CreateChatCompletion(prompt string, stream bool) (chan string, error)
+    CreateChatCompletion(prompt string, model string, stream bool) (chan string, error)
 }
 
 var providers = make(map[string]Provider)

@@ -74,6 +74,8 @@ func GetDefaultProvider() string {
 	if config == nil {
 		return ""
 	}
+
+	
 	return config.DefaultProvider
 }
 

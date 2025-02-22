@@ -34,12 +34,15 @@ func NewDeepSeekClient(apiKey string) *DeepSeekClient {
 	}
 }
 
-func (c *DeepSeekClient) CreateChatCompletion(prompt string, stream bool) (chan string, error) {
+func (c *DeepSeekClient) CreateChatCompletion(prompt string, model string, stream bool) (chan string, error) {
     reqBody := map[string]interface{}{
-        "model": "deepseek-chat",
-        "messages": []map[string]string{
-            {"role": "user", "content": prompt},
-        },
+        "model": model,
+        "messages": []map[string]interface{}{
+			{
+				"role": "user",
+				"content": prompt,
+			},
+		},
         "stream": stream,
     }
 
@@ -54,6 +57,7 @@ func (c *DeepSeekClient) CreateChatCompletion(prompt string, stream bool) (chan 
     }
     req.Header.Set("Authorization", "Bearer "+c.APIKey)
     req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Accept", "application/json")
 
     resp, err := c.HTTPClient.Do(req)
     if err != nil {

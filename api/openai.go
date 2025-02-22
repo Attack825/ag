@@ -34,9 +34,9 @@ func NewOpenAIClient(apiKey string) *OpenAIClient {
 	}
 }
 
-func (c *OpenAIClient) CreateChatCompletion(prompt string, stream bool) (chan string, error) {
+func (c *OpenAIClient) CreateChatCompletion(prompt string, model string, stream bool) (chan string, error) {
     reqBody := map[string]interface{}{
-        "model": "gpt-3.5-turbo",
+        "model": model,
         "messages": []map[string]interface{}{
             {"role": "user", "content": prompt},
         },

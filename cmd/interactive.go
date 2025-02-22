@@ -32,7 +32,7 @@ var (
 )
 
 func init() {
-	interactiveCmd.Flags().StringVarP(&model, "model", "m", "deepseek-r1", "模型名称")
+	interactiveCmd.Flags().StringVarP(&model, "model", "m", "", "模型名称")
 	interactiveCmd.Flags().BoolVarP(&stream, "stream", "s", true, "启用流式输出")
 	interactiveCmd.Flags().StringVarP(&provider, "provider", "p", "", "指定供应商 (volcengine, deepseek)")  // 新增 provider 参数
 
@@ -43,7 +43,10 @@ func init() {
 var interactiveCmd = &cobra.Command{
 	Use:   "interactive",
 	Short: "进入交互式对话模式",
-	
+	Run: func(cmd *cobra.Command, args []string) {
+		initProvider()
+		startREPL()
+	},
 }
 
 func initProvider() {
@@ -65,11 +68,21 @@ func initProvider() {
         fmt.Printf("找不到提供商: %s\n", providerName)
         os.Exit(1)
     }
+
+	// 获取模型
+    if model == "" {
+        // 如果命令行未指定模型，使用配置中的默认模型
+        if cfg := config.GetProviderConfig(providerName); cfg != nil {
+            model = cfg.Model
+        }
+    }
+
+	// currentProvider.SetModel(modelName)
 }
 
 func startREPL() {
 	scanner := bufio.NewScanner(os.Stdin)
-	fmt.Printf("[%s] 输入问题（输入 exit 退出）:\n", currentProvider.Name())
+	fmt.Printf("🤖 [%s](%s) exit 退出:\n", model, currentProvider.Name())
 
 	for {
 		fmt.Print(">>> ")
@@ -87,10 +100,15 @@ func startREPL() {
 }
 
 func handleInput(prompt string) {
-	stream, _ := currentProvider.CreateChatCompletion(prompt, true)
-	fmt.Printf("\n🤖 [%s] 回答:\n", currentProvider.Name())
-	for chunk := range stream {
-		fmt.Print(chunk)
-	}
-	fmt.Println("\n")
+	stream, err := currentProvider.CreateChatCompletion(prompt, model, true)
+    if err != nil {
+        fmt.Printf("\n❌ 请求失败: %v\n\n", err)
+        return
+    }
+    
+    fmt.Printf("\n🤖 [%s](%s):\n", model, currentProvider.Name())
+    for chunk := range stream {
+        fmt.Print(chunk)
+    }
+    fmt.Println("\n")
 }

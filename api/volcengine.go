@@ -34,9 +34,9 @@ func NewVolcEngineClient(apiKey string) *VolcEngineClient {
 	}
 }
 
-func (c *VolcEngineClient) CreateChatCompletion(prompt string, stream bool) (chan string, error) {
+func (c *VolcEngineClient) CreateChatCompletion(prompt string, model string, stream bool) (chan string, error) {
     reqBody := map[string]interface{}{
-        "model": "deepseek-v3-241226",
+        "model": model,
         "messages": []map[string]string{
             {"role": "user", "content": prompt},
         },
