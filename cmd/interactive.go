@@ -24,11 +24,17 @@ var interactiveCmd = &cobra.Command{
 
 func initProvider() {
     // 从配置加载默认提供商
-    providerName := config.GetDefaultProvider()
-    if providerName == "" {
-        fmt.Println("未配置默认提供商")
-        os.Exit(1)
-    }
+    var providerName string
+	if provider != "" {
+		providerName = provider  // 使用命令行指定的供应商
+	} else {
+		providerName = config.GetDefaultProvider()  // 使用默认供应商
+	}
+	
+	if providerName == "" {
+		fmt.Println("未配置默认提供商")
+		return
+	}
     
     currentProvider = api.GetProvider(providerName)
     if currentProvider == nil {

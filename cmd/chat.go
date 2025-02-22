@@ -12,6 +12,7 @@ var (
 	model   string
 	stream  bool
 	apiKey  string
+	provider string
 	rootCmd = &cobra.Command{ // 定义 rootCmd 变量
 		Use:   "chat",
 		Short: "AI 命令行工具",
@@ -46,17 +47,24 @@ var chatCmd = &cobra.Command{
 func init() {
 	chatCmd.Flags().StringVarP(&model, "model", "m", "gpt-3.5", "模型名称")
 	chatCmd.Flags().BoolVarP(&stream, "stream", "s", true, "启用流式输出")
+	chatCmd.Flags().StringVarP(&provider, "provider", "p", "", "指定供应商 (volcengine, deepseek)")  // 新增 provider 参数
 
 	rootCmd.AddCommand(chatCmd)
 }
 
 func handleChat(question string) {
     // 获取默认提供商
-    providerName := config.GetDefaultProvider()
-    if providerName == "" {
-        fmt.Println("未配置默认提供商")
-        return
-    }
+    var providerName string
+	if provider != "" {
+		providerName = provider  // 使用命令行指定的供应商
+	} else {
+		providerName = config.GetDefaultProvider()  // 使用默认供应商
+	}
+	
+	if providerName == "" {
+		fmt.Println("未配置默认提供商")
+		return
+	}
 
     // 获取提供商实例
     provider := api.GetProvider(providerName)
