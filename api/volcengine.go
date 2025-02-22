@@ -22,7 +22,7 @@ func (c *VolcEngineClient) Name() string {
 func NewVolcEngineClient(apiKey string) *VolcEngineClient {
 	return &VolcEngineClient{
 		HTTPClient: &http.Client{
-			Timeout: 30 * time.Second,
+			Timeout: 5 * time.Minute,
 			Transport: &http.Transport{
 				MaxIdleConns:       10,
 				IdleConnTimeout:    30 * time.Second,
