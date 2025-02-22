@@ -60,6 +60,8 @@ func Load() error {
 			api.RegisterProvider(name, api.NewVolcEngineClient(cfg.APIKey))
 		case "openai":
 			api.RegisterProvider(name, api.NewOpenAIClient(cfg.APIKey))
+		case "deepseek":
+			api.RegisterProvider(name, api.NewDeepSeekClient(cfg.APIKey))
 		default:
 			return fmt.Errorf("未知的提供商类型: %s", cfg.Type)
 		}
