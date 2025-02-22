@@ -76,6 +76,18 @@ AG 是一个与 AI 模型交互的命令行工具，支持多种 AI 提供商和
   - `api_key`: API 密钥
   - `model`: 使用的模型
 
+## Demo
+
+<div align='center'>
+   
+<img src="https://github.com/user-attachments/assets/c8ba1d89-4c95-4976-9a9b-c61a2093d196" width=600>
+
+_支持多平台多模型_
+
+<img src="https://github.com/user-attachments/assets/b9087b54-7e75-48df-9cc6-90948c316a34" width=600>
+
+_持久对话_
+
 ## 贡献
 
 欢迎贡献！请阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 了解如何参与开发。
