@@ -1,8 +1,8 @@
 # AG - AI 命令行工具
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Go Report Card](https://goreportcard.com/badge/github.com/yourusername/ag)](https://goreportcard.com/report/github.com/yourusername/ag)
-[![Build Status](https://github.com/yourusername/ag/actions/workflows/build.yml/badge.svg)](https://github.com/yourusername/ag/actions)
+[![Go Report Card](https://goreportcard.com/badge/github.com/irorange27/ag)](https://goreportcard.com/report/github.com/irorange27/ag)
+[![Build Status](https://github.com/irorange27/ag/actions/workflows/build.yml/badge.svg)](https://github.com/irorange27/ag/actions)
 
 AG 是一个与 AI 模型交互的命令行工具，支持多种 AI 提供商和流式响应。
 
@@ -18,7 +18,7 @@ AG 是一个与 AI 模型交互的命令行工具，支持多种 AI 提供商和
 
 ### 二进制文件
 
-从 [Releases](https://github.com/yourusername/ag/releases) 页面下载预编译的二进制文件。
+从 [Releases](https://github.com/irorange27/ag/releases) 页面下载预编译的二进制文件。
 
 ### 从源码编译
 
@@ -26,7 +26,7 @@ AG 是一个与 AI 模型交互的命令行工具，支持多种 AI 提供商和
 2. 克隆仓库：
 
    ```bash
-   git clone https://github.com/yourusername/ag.git
+   git clone https://github.com/irorange27/ag.git
    cd ag
    ```
 
