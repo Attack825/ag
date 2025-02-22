@@ -8,26 +8,6 @@ import (
 	"ag/config"
 )
 
-var (
-	model   string
-	stream  bool
-	apiKey  string
-	provider string
-	rootCmd = &cobra.Command{ // 定义 rootCmd 变量
-		Use:   "chat",
-		Short: "AI 命令行工具",
-		Long:  `ag 是一个与大模型交互的命令行工具。`,
-		Run: func(cmd *cobra.Command, args []string) {
-		if err := config.Load(); err != nil {
-			fmt.Printf("加载配置失败: %v\n", err)
-			os.Exit(1)
-		}
-		initProvider()
-		startREPL()
-	},
-		
-	}
-)
 
 var chatCmd = &cobra.Command{
 	Use:   "chat",
@@ -45,11 +25,8 @@ var chatCmd = &cobra.Command{
 }
 
 func init() {
-	chatCmd.Flags().StringVarP(&model, "model", "m", "gpt-3.5", "模型名称")
-	chatCmd.Flags().BoolVarP(&stream, "stream", "s", true, "启用流式输出")
-	chatCmd.Flags().StringVarP(&provider, "provider", "p", "", "指定供应商 (volcengine, deepseek)")  // 新增 provider 参数
 
-	rootCmd.AddCommand(chatCmd)
+	interactiveCmd.AddCommand(chatCmd)
 }
 
 func handleChat(question string) {
