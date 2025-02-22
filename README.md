@@ -38,6 +38,7 @@ AG 是一个与 AI 模型交互的命令行工具，支持多种 AI 提供商和
 
    编译后的文件会在 `bin/` 目录下
 
+
 ## 使用说明
 
 1. 创建配置文件 `config.yaml`：
@@ -63,6 +64,26 @@ AG 是一个与 AI 模型交互的命令行工具，支持多种 AI 提供商和
 
    ```bash
    ./ag chat "你好，世界！"
+   ```
+
+## Windows安装说明
+
+1. 创建安装目录：
+
+   ```bash
+   mkdir -p $HOME/.local/bin/ag
+   ```
+
+2. 复制可执行文件：
+
+   ```bash
+   cp ag.exe $HOME/.local/bin/ag
+   ```
+
+3. 复制配置文件：
+
+   ```bash
+   cp config.yaml $HOME/.local/bin/ag
    ```
 
 ## 配置
