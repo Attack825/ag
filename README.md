@@ -88,6 +88,8 @@ _支持多平台多模型_
 
 _持久对话_
 
+</div>
+
 ## 贡献
 
 欢迎贡献！请阅读 [CONTRIBUTING.md](CONTRIBUTING.md) 了解如何参与开发。
