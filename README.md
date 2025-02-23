@@ -86,6 +86,12 @@ AG 是一个与 AI 模型交互的命令行工具，支持多种 AI 提供商和
    cp config.yaml $HOME/.local/bin/ag
    ```
 
+4. 加入环境变量
+
+   ```powershell
+   $env:path = "$HOME\.local\bin\ag;$env:Path" # PowerShell
+   ```
+
 ## 配置
 
 配置文件支持以下选项：
