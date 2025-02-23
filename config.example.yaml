@@ -1,0 +1,14 @@
+default_provider: "volcengine"
+
+providers:
+  volcengine:
+    type: volcengine
+    endpoint: https://ark.cn-beijing.volces.com/api/v3/chat/completions
+    api_key: ${{ARK_KEY}}
+    model: deepseek-v3-241226
+
+  deepseek:
+    type: deepseek
+    endpoint: https://api.deepseek.com/chat/completions
+    api_key: ${{DEEPSEEK_KEY}}
+    model: deepseek-reasoner
