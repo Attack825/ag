@@ -10,7 +10,7 @@ case $ARCH in
 esac
 
 # 构建下载URL
-DOWNLOAD_URL="https://github.com/irorange27/ag/releases/latest/download/ag-$OS-$ARCH"
+DOWNLOAD_URL="https://github.com/Attack825/ag/releases/latest/download/ag-$OS-$ARCH"
 
 # 下载并安装
 echo "正在安装 ag for $OS/$ARCH..."
