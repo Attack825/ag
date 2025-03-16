@@ -1,16 +1,16 @@
 package main
 
 import (
-	"fmt"
-	"ag/config"
 	"ag/cmd"
+	"ag/config"
+	"fmt"
 )
 
 func main() {
 	if err := config.Load(); err != nil {
-        fmt.Println(err)
-        return
-    }
+		fmt.Println(err)
+		return
+	}
 
 	cmd.Execute()
 }

@@ -8,68 +8,67 @@ import (
 	"strings"
 )
 
-
 func handleStreamResponse(body io.Reader) (chan string, error) {
-    ch := make(chan string)
-    go func() {
-        defer close(ch)
-        reader := bufio.NewReader(body)
-        thoughtStarted := false
+	ch := make(chan string)
+	go func() {
+		defer close(ch)
+		reader := bufio.NewReader(body)
+		thoughtStarted := false
 
-        for {
-            line, err := reader.ReadString('\n')
-            if err != nil {
-                if err == io.EOF {
-                    break
-                }
-                ch <- fmt.Sprintf("错误: %v", err)
-                return
-            }
+		for {
+			line, err := reader.ReadString('\n')
+			if err != nil {
+				if err == io.EOF {
+					break
+				}
+				ch <- fmt.Sprintf("错误: %v", err)
+				return
+			}
 
-            if strings.TrimSpace(line) == "" {
-                continue
-            }
+			if strings.TrimSpace(line) == "" {
+				continue
+			}
 
-            if strings.HasPrefix(line, "data: ") {
-                data := strings.TrimPrefix(line, "data: ")
-                data = strings.TrimSpace(data)
-                
-                // 处理结束标记
-                if data == "[DONE]" {
-                    break
-                }
+			if strings.HasPrefix(line, "data: ") {
+				data := strings.TrimPrefix(line, "data: ")
+				data = strings.TrimSpace(data)
 
-                var chunk struct {
-                    Choices []struct {
-                        Delta struct {
-                            Content string `json:"content"`
-                            Thought string `json:"reasoning_content"`
-                        } `json:"delta"`
-                    } `json:"choices"`
-                }
+				// 处理结束标记
+				if data == "[DONE]" {
+					break
+				}
 
-                if err := json.Unmarshal([]byte(data), &chunk); err != nil {
-                    ch <- fmt.Sprintf("解析数据块失败: %v", err)
-                    continue  // 继续处理后续数据而不是直接返回
-                }
+				var chunk struct {
+					Choices []struct {
+						Delta struct {
+							Content string `json:"content"`
+							Thought string `json:"reasoning_content"`
+						} `json:"delta"`
+					} `json:"choices"`
+				}
 
-                if len(chunk.Choices) > 0 {
-                    // 输出思考过程和内容
-                    if chunk.Choices[0].Delta.Thought != "" {
-                        if !thoughtStarted {
-                            ch <- "\n🤔 "
-                            thoughtStarted = true
-                        }
-                        ch <- chunk.Choices[0].Delta.Thought
-                    }
-                    if chunk.Choices[0].Delta.Content != "" {
-                        ch <- chunk.Choices[0].Delta.Content
-                    }
-                }
-            }
-        }
-    }()
-    return ch, nil
+				if err := json.Unmarshal([]byte(data), &chunk); err != nil {
+					ch <- fmt.Sprintf("解析数据块失败: %v", err)
+					continue // 继续处理后续数据而不是直接返回
+				}
+
+				if len(chunk.Choices) > 0 {
+					// 输出思考过程和内容
+					if chunk.Choices[0].Delta.Thought != "" {
+						if !thoughtStarted {
+							ch <- "\n🤔 "
+							thoughtStarted = true
+						}
+						ch <- chunk.Choices[0].Delta.Thought
+					}
+					if chunk.Choices[0].Delta.Content != "" {
+						ch <- chunk.Choices[0].Delta.Content
+					}
+				}
+			}
+		}
+	}()
+	return ch, nil
 }
 
 func handleNormalResponse(body io.Reader) (string, error) {
