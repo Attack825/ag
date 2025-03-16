@@ -19,7 +19,7 @@ func (c *VolcEngineClient) Name() string {
 	return "volcengine"
 }
 
-func NewVolcEngineClient(apiKey string) *VolcEngineClient {
+func NewVolcEngineClient(baseURL string, apiKey string) *VolcEngineClient {
 	return &VolcEngineClient{
 		HTTPClient: &http.Client{
 			Timeout: 5 * time.Minute,
@@ -30,7 +30,7 @@ func NewVolcEngineClient(apiKey string) *VolcEngineClient {
 			},
 		},
 		APIKey:  apiKey,
-		BaseURL: "https://ark.cn-beijing.volces.com/api/v3",
+		BaseURL: baseURL,
 	}
 }
 

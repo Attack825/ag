@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"ag/config"
 	"fmt"
 	"os"
 
@@ -33,21 +32,6 @@ func init() {
 }
 
 func handleChat(question string) {
-	// 获取默认提供商
-	if provider == "" {
-		provider = config.GetDefaultProvider()
-	}
-	cfg := config.GetProviderConfig(provider)
-	if cfg == nil {
-		fmt.Printf("找不到提供商配置: %s\n", provider)
-		return
-	}
-
-	// 获取模型
-	if model == "" {
-		model = cfg.Model
-	}
-
 	// 调用API
 	fmt.Printf("👤 用户: %s\n", question)
 	fmt.Printf("🤖 [%s](%s): \n", model, currentProvider.Name())
@@ -63,12 +47,5 @@ func handleChat(question string) {
 	for chunk := range stream {
 		fmt.Print(chunk)
 	}
-	fmt.Println() // 换行
-}
-
-func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+	fmt.Println()
 }

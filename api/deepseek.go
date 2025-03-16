@@ -19,7 +19,7 @@ func (c *DeepSeekClient) Name() string {
 	return "deepseek"
 }
 
-func NewDeepSeekClient(apiKey string) *DeepSeekClient {
+func NewDeepSeekClient(baseURL string, apiKey string) *DeepSeekClient {
 	return &DeepSeekClient{
 		HTTPClient: &http.Client{
 			Timeout: 5 * time.Minute,
@@ -30,7 +30,7 @@ func NewDeepSeekClient(apiKey string) *DeepSeekClient {
 			},
 		},
 		APIKey:  apiKey,
-		BaseURL: "https://api.deepseek.com",
+		BaseURL: baseURL,
 	}
 }
 
@@ -61,13 +61,16 @@ func (c *DeepSeekClient) CreateChatCompletion(prompt string, model string, strea
 
 	resp, err := c.HTTPClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("请求失败: %v", err)
+		return nil, fmt.Errorf("网络请求失败: %v", err)
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		body, _ := io.ReadAll(resp.Body)
+		body, err := io.ReadAll(resp.Body)
 		resp.Body.Close()
-		return nil, fmt.Errorf("API 错误: %s", string(body))
+		if err != nil {
+			return nil, fmt.Errorf("读取错误响应失败: %v", err)
+		}
+		return nil, fmt.Errorf("API 错误 (状态码 %d): %s", resp.StatusCode, string(body))
 	}
 
 	if stream {

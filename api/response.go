@@ -8,6 +8,9 @@ import (
 	"strings"
 )
 
+/*
+处理流式响应
+*/
 func handleStreamResponse(body io.Reader) (chan string, error) {
 	ch := make(chan string)
 	go func() {
@@ -71,6 +74,9 @@ func handleStreamResponse(body io.Reader) (chan string, error) {
 	return ch, nil
 }
 
+/*
+处理普通响应
+*/
 func handleNormalResponse(body io.Reader) (string, error) {
 	var response struct {
 		Choices []struct {

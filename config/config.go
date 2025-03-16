@@ -16,10 +16,10 @@ type Config struct {
 }
 
 type ProviderConfig struct {
-	Type     string `yaml:"type"`
-	Endpoint string `yaml:"endpoint"`
-	APIKey   string `yaml:"api_key"`
-	Model    string `yaml:"model"`
+	Type    string `yaml:"type"`
+	BaseURL string `yaml:"base_url"`
+	APIKey  string `yaml:"api_key"`
+	Model   string `yaml:"model"`
 }
 
 var config *Config
@@ -72,11 +72,11 @@ func Load() error {
 	for name, cfg := range config.Providers {
 		switch cfg.Type {
 		case "volcengine":
-			api.RegisterProvider(name, api.NewVolcEngineClient(cfg.APIKey))
+			api.RegisterProvider(name, api.NewVolcEngineClient(cfg.BaseURL, cfg.APIKey))
 		case "openai":
-			api.RegisterProvider(name, api.NewOpenAIClient(cfg.APIKey))
+			api.RegisterProvider(name, api.NewOpenAIClient(cfg.BaseURL, cfg.APIKey))
 		case "deepseek":
-			api.RegisterProvider(name, api.NewDeepSeekClient(cfg.APIKey))
+			api.RegisterProvider(name, api.NewDeepSeekClient(cfg.BaseURL, cfg.APIKey))
 		default:
 			return fmt.Errorf("未知的提供商类型: %s", cfg.Type)
 		}

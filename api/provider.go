@@ -14,3 +14,11 @@ func RegisterProvider(name string, p Provider) {
 func GetProvider(name string) Provider {
 	return providers[name]
 }
+
+// func GetProviderNameList() []string {
+// 	var names []string
+// 	for name := range providers {
+// 		names = append(names, name)
+// 	}
+// 	return names
+// }

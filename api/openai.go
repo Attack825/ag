@@ -19,7 +19,7 @@ func (c *OpenAIClient) Name() string {
 	return "openai"
 }
 
-func NewOpenAIClient(apiKey string) *OpenAIClient {
+func NewOpenAIClient(baseURL string, apiKey string) *OpenAIClient {
 	return &OpenAIClient{
 		HTTPClient: &http.Client{
 			Timeout: 5 * time.Minute,
@@ -30,7 +30,7 @@ func NewOpenAIClient(apiKey string) *OpenAIClient {
 			},
 		},
 		APIKey:  apiKey,
-		BaseURL: "https://api.openai.com/v1",
+		BaseURL: baseURL,
 	}
 }
 
