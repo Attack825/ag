@@ -29,10 +29,10 @@ checksum:
 
 release:
   github:
-    owner: "irorange27"
+    owner: "attack825"
     name: "ag"
   draft: true
-  prerelease: false
+  prerelease: "false"
   name_template: "{{.Tag}}"
   extra_files:
     - glob: config.yaml.example
